@@ -1,38 +1,52 @@
+const inputTexto = document.getElementById('input-texto');
+const btnEncriptar = document.getElementById('btn-encriptar');
+const btnDesencriptar = document.getElementById('btn-desencriptar');
+const inputResultado = document.getElementById('mensaje-texto');
+const btnCopiar = document.getElementById('btn-copy');
 
-/* Reglas de encriptación: 
-"e" es convertido para "enter" 
-"i" es convertido para "imes"
-"a" es convertido para "ai"
-"o" es convertido para "ober"
-"u" es convertido para "ufat"
-Solo letras minusculas
-No se permite acentuación de palabras 
-*/
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('Aplicación Iniciada');
+  btnEncriptar.addEventListener('click', encriptarTexto);
+  btnDesencriptar.addEventListener('click', desencriptarTexto);
+  btnCopiar.addEventListener('click', copiarTexto);
+});
 
-/* Reglas de desencriptación: 
-"enter" es convertido para "e" 
-"imes" es convertido para "i"
-"ai" es convertido para "a"
-"ober" es convertido para "o"
-"ufat" es convertido para "u"
-Solo letras minusculas
-No se permite acentuación de palabras   
-*/
+function encriptarTexto(e) {
+  e.preventDefault();  
+  let texto = inputTexto.value;    
+  let palabras = texto.split(" ");
+  let nuevasPalabras = [];
 
-console.log('Aplicación Iniciada');
+  for (let palabra of palabras) {
+    nuevasPalabras.push(palabra.replace('e','enter').replace('i','imes').replace('a','ai').replace('o','ober').replace('u','ufat'));    
+  }
 
-const boton = document.getElementById('btn-copy');
-boton.addEventListener('click', copiarTexto);
+  const resultado = nuevasPalabras.join(' ');
+  
+  inputResultado.value = resultado;
+}
 
-function copiarTexto() {
-    const mensaje = document.getElementById('mensaje-texto');
+function desencriptarTexto(e) {
+  e.preventDefault();  
+  let texto = inputTexto.value;    
+  let palabras = texto.split(" ");
+  let nuevasPalabras = [];
+
+  for (let palabra of palabras) {
+    nuevasPalabras.push(palabra.replace('enter','e').replace('imes','i').replace('ai','a').replace('ober','o').replace('ufat','u'));
+  }
+
+  const resultado = nuevasPalabras.join(' ');
+  
+  inputResultado.value = resultado;
+}
+
+function copiarTexto(e) {
+    e.preventDefault(); 
+    const mensaje = inputResultado.value;
     const type = 'text/plain';
-    const blob = new Blob([mensaje.value], {type});
+    const blob = new Blob([mensaje], {type});
     let data = [new ClipboardItem({[type]: blob})];
   
-    navigator.clipboard.write(data).then(function() {
-      console.log('El texto se copió correctamente!')
-    }, function() {
-      console.log('Ha ocurrido un error y no se pudo copiar el texto');
-    });
+    navigator.clipboard.write(data);
 }
