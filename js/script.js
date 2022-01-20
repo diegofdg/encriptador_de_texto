@@ -3,50 +3,89 @@ const btnEncriptar = document.getElementById('btn-encriptar');
 const btnDesencriptar = document.getElementById('btn-desencriptar');
 const inputResultado = document.getElementById('mensaje-texto');
 const btnCopiar = document.getElementById('btn-copy');
+const soloLetras ='^[a-z !ñ]+$';
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Aplicación Iniciada');
   btnEncriptar.addEventListener('click', encriptarTexto);
   btnDesencriptar.addEventListener('click', desencriptarTexto);
   btnCopiar.addEventListener('click', copiarTexto);
 });
 
 function encriptarTexto(e) {
-  e.preventDefault();  
-  let texto = inputTexto.value;    
-  let palabras = texto.split(" ");
-  let nuevasPalabras = [];
-
-  for (let palabra of palabras) {
-    nuevasPalabras.push(palabra.replace('e','enter').replace('i','imes').replace('a','ai').replace('o','ober').replace('u','ufat'));    
-  }
-
-  const resultado = nuevasPalabras.join(' ');
+  e.preventDefault();
+  inputResultado.value = '';
+  let texto = inputTexto.value;
   
-  inputResultado.value = resultado;
+  if(texto.match(soloLetras)!=null){
+    let palabras = texto.split(' ');
+    let nuevasPalabras = [];
+    
+    for (let palabra of palabras) {
+      palabra = palabra.replaceAll('e','enter');
+      palabra = palabra.replaceAll('i','imes');
+      palabra = palabra.replaceAll('a','ai');
+      palabra = palabra.replaceAll('o','ober');
+      palabra = palabra.replaceAll('u','ufat');      
+      
+      nuevasPalabras.push(palabra);    
+    }
+
+    const resultado = nuevasPalabras.join(' ');
+    
+    inputResultado.value = resultado;
+  } else {
+    mostrarError('Solo se permiten letras minúsculas, sin acentos');
+    return;
+  }  
 }
 
 function desencriptarTexto(e) {
   e.preventDefault();  
-  let texto = inputTexto.value;    
-  let palabras = texto.split(" ");
-  let nuevasPalabras = [];
+  inputResultado.value = '';
+  let texto = inputTexto.value;
 
-  for (let palabra of palabras) {
-    nuevasPalabras.push(palabra.replace('enter','e').replace('imes','i').replace('ai','a').replace('ober','o').replace('ufat','u'));
-  }
+  if(texto.match(soloLetras)!=null){
+    let palabras = texto.split(" ");
+    let nuevasPalabras = [];    
 
-  const resultado = nuevasPalabras.join(' ');
+    for (let palabra of palabras) {
+      palabra = palabra.replaceAll('enter','e');
+      palabra = palabra.replaceAll('imes','i');
+      palabra = palabra.replaceAll('ai','a');
+      palabra = palabra.replaceAll('ober','o');
+      palabra = palabra.replaceAll('ufat','u');
+      nuevasPalabras.push(palabra);    
+    }
+
+    const resultado = nuevasPalabras.join(' ');
+    
+    inputResultado.value = resultado;
+  } else {
+    mostrarError('Solo se permiten letras minúsculas, sin acentos');
+    return;
+  }  
+}
+
+function mostrarError(mensaje) {
+  const existeError = document.querySelector('.error');
   
-  inputResultado.value = resultado;
+  if(!existeError) {
+      const formulario = document.getElementById('formulario');
+      const divMensaje = document.createElement('div');
+      divMensaje.classList.add('error');
+  
+      divMensaje.textContent = mensaje;            
+      formulario.appendChild(divMensaje);
+      
+      setTimeout(()=> {
+          divMensaje.remove();
+      }, 3000);
+  }
 }
 
 function copiarTexto(e) {
     e.preventDefault(); 
     const mensaje = inputResultado.value;
-    const type = 'text/plain';
-    const blob = new Blob([mensaje], {type});
-    let data = [new ClipboardItem({[type]: blob})];
-  
-    navigator.clipboard.write(data);
+
+    navigator.clipboard.writeText(mensaje);
 }

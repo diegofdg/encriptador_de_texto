@@ -4,7 +4,11 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="img/favicon.ico" type="image/x-icon">   
   <title>Encriptador de Texto con JavaScript</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Krub:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,7 +16,7 @@
 
   <main class="main">
     <section class="form box">
-      <form action="">
+      <form id="formulario">
         <label for="input-texto">Solo letras minúsculas, sin acentos</label>
         <textarea class="text-input" name="input-texto" id="input-texto" placeholder="Ingrese el texto aqui" rows="5" cols="50"></textarea>
         <div class="button-container">
@@ -23,12 +27,15 @@
     </section>
   
     <section class="msg box">
-      <label for="mensaje-texto">Mensaje encriptado:</h2>
+      <label for="mensaje-texto">Mensaje encriptado:</h2></label>
       <textarea class="text-input" name="mensaje-texto" id="mensaje-texto"rows="5" cols="50"></textarea>              
       <input class="btn" type="submit" value="Copiar texto" id="btn-copy">
     </section>
   </main>
-  <footer class="footer">Todos los derechos reservados 2022 &copy; - Diego Fabián Di Giorgio</footer>
+
+  <footer class="footer">
+    <p>Hecho con <span class="corazon">❤</span> por <span>Diego Fabián Di Giorgio</span> | &copy; 2022</p>
+  </footer>
 
   <script src="js/script.js"></script>
 </body>
